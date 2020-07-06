@@ -30,6 +30,12 @@ const UserSchema = new Schema(
 			type: String,
 			required: true
 		},
+		taskLists: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'TaskList'
+			}
+		],
 		block: {
 			type: Boolean,
 			required: false,

@@ -11,8 +11,8 @@ app.use(morgan('dev'));
 
 // Routes
 const userRoutes = require('./routes/user.routes');
-const tasksRoutes = require('./routes/tasks.routes');
+const tasksRoutes = require('./routes/tasklist.routes');
 app.use('/user', userRoutes);
-app.use('/tasks', tasksRoutes);
+app.use('/tasklist', tasksRoutes);
 
 export default app;

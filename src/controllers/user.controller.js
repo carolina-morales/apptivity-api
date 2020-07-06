@@ -30,6 +30,7 @@ userCtrl.signup = async (req, res) => {
 
 		return res.status(200).json({ msg: 'Cuenta creada' });
 	} catch (error) {
+		console.log(error);
 		return res.status(500).json({ error });
 	}
 };
@@ -60,6 +61,7 @@ userCtrl.login = async (req, res) => {
 			}
 		);
 	} catch (error) {
+		console.log(error);
 		return res.status(500).json({ error });
 	}
 };
@@ -71,6 +73,7 @@ userCtrl.getUsers = async (req, res) => {
 
 		return res.json(users);
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error });
 	}
 };
@@ -84,6 +87,7 @@ userCtrl.getUser = async (req, res) => {
 
 		return res.json({ user });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error });
 	}
 };
@@ -99,6 +103,7 @@ userCtrl.updateUser = async (req, res) => {
 		const user = await User.findByIdAndUpdate(id, data, { new: true });
 		return res.json({ msg: 'Datos actualizados', user });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error });
 	}
 };
@@ -110,6 +115,7 @@ userCtrl.deleteUser = async (req, res) => {
 		if (!resp) return res.status(400).json({ msg: 'No fue posible eliminar la cuenta' });
 		return res.json({ msg: 'Cuenta eliminada' });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error });
 	}
 };
@@ -124,6 +130,7 @@ userCtrl.blockUser = async (req, res) => {
 		const userUpdate = await User.findByIdAndUpdate(id, { block }, { new: true });
 		return res.json({ msg: 'Datos actualizados', user });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error });
 	}
 };

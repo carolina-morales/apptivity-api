@@ -6,9 +6,10 @@ const MONGO_URI = `mongodb://${MONGO_HOST}/${MONGO_DBNAME}`;
 export async function connect() {
 	try {
 		await mongoose.connect(MONGO_URI, {
-			useUnifiedTopology: true,
 			useNewUrlParser: true,
-			useCreateIndex: true
+			useFindAndModify: false,
+			useCreateIndex: true,
+			useUnifiedTopology: true
 		});
 		console.log('Database is connected');
 	} catch (error) {
