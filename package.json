@@ -1,0 +1,39 @@
+{
+	"name": "apptivity-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node dist/index.js",
+		"dev": "nodemon src/index.js --exec babel-node",
+		"build": "babel src --out-dir dist"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/daniel-cmorales/apptivity-api.git"
+	},
+	"author": "Daniel Morales",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/daniel-cmorales/apptivity-api/issues"
+	},
+	"homepage": "https://github.com/daniel-cmorales/apptivity-api#readme",
+	"devDependencies": {
+		"@babel/cli": "^7.10.4",
+		"@babel/core": "^7.10.4",
+		"@babel/node": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"nodemon": "^2.0.4"
+	},
+	"dependencies": {
+		"@babel/polyfill": "^7.10.4",
+		"bcryptjs": "^2.4.3",
+		"colors": "^1.4.0",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"express-validator": "^6.6.0",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.9.21",
+		"morgan": "^1.10.0"
+	}
+}
