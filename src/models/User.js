@@ -30,10 +30,10 @@ const UserSchema = new Schema(
 			type: String,
 			required: true
 		},
-		taskLists: [
+		boards: [
 			{
 				type: Schema.Types.ObjectId,
-				ref: 'TaskList'
+				ref: 'Board'
 			}
 		],
 		block: {

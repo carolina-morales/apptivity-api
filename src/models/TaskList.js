@@ -7,12 +7,16 @@ const TaskListSchema = new Schema(
 			required: true
 		},
 		tasks: {
-			type: Schema.Types.ObjectId,
-			ref: 'Task'
+			type: Array,
+			default: []
 		},
 		author: {
 			type: Schema.Types.ObjectId,
 			ref: 'User'
+		},
+		board: {
+			type: Schema.Types.ObjectId,
+			ref: 'Board'
 		}
 	},
 	{ timestamps: true }

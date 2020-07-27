@@ -1,17 +1,20 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
-const TaskSchema = new Schema(
-	{
-		name: {
-			type: String,
-			required: true
-		},
-		list: {
-			type: Schema.Types.ObjectId,
-			ref: 'TaskList'
-		}
+const TaskSchema = new Schema({
+	_id: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		default: new mongoose.Types.ObjectId()
 	},
-	{ timestamps: true }
-);
+	name: {
+		type: String,
+		required: true
+	},
+	createdAt: {
+		type: Date,
+		required: true,
+		default: new Date()
+	}
+});
 
 module.exports = model('Task', TaskSchema);

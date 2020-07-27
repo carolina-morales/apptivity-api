@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
+import { isAuthenticated } from '../helpers/auth';
 
 const {
 	signup,
@@ -13,9 +14,8 @@ const {
 const router = Router();
 
 // get
-router.get('/', getUsers);
-
-router.get('/:id', getUser);
+router.get('/', isAuthenticated, getUsers);
+router.get('/:id', isAuthenticated, getUser);
 
 // post
 router.post(
