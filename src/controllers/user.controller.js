@@ -70,8 +70,13 @@ userCtrl.login = async (req, res) => {
 
 userCtrl.getUsers = async (req, res) => {
 	try {
-		const users = await User.find({});
+		const users = await User.find({}).populate({
+			path: 'boards',
+			populate: { path: 'taskLists' }
+		});
 		if (!users) res.status(200).json({ ok: false, errors: [ { msg: 'No hay usuarios disponibles' } ] });
+
+		// users.image = `http://localhost:3000/uploads/${users.image}`;
 
 		return res.status(200).json({ ok: true, users });
 	} catch (error) {
@@ -84,8 +89,13 @@ userCtrl.getUser = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const user = await User.findById(id).populate('boards');
+		const user = await User.findById(id).populate({
+			path: 'boards',
+			populate: { path: 'taskLists' }
+		});
 		if (!user) res.status(200).json({ ok: false, errors: [ { msg: 'No se encontraron usuarios' } ] });
+
+		user.image = `http://localhost:3000/uploads-files/${user.image}`;
 
 		return res.json({ user });
 	} catch (error) {
@@ -96,14 +106,14 @@ userCtrl.getUser = async (req, res) => {
 
 userCtrl.updateUser = async (req, res) => {
 	const errors = validationResult(req);
-	if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+	if (!errors.isEmpty()) return res.status(200).json({ ok: false, errors: errors.array() });
 
 	const { id } = req.params;
 	const data = req.body;
 
 	try {
 		const user = await User.findByIdAndUpdate(id, data, { new: true });
-		return res.json({ msg: 'Datos actualizados', user });
+		return res.status(200).json({ ok: true, msg: 'Datos actualizados', user });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error });
@@ -114,7 +124,7 @@ userCtrl.deleteUser = async (req, res) => {
 	const { id } = req.params;
 	try {
 		const resp = await User.findByIdAndDelete(id);
-		if (!resp) return res.status(400).json({ msg: 'No fue posible eliminar la cuenta' });
+		if (!resp) return res.status(200).json({ ok: true, msg: 'No fue posible eliminar la cuenta' });
 		return res.json({ msg: 'Cuenta eliminada' });
 	} catch (error) {
 		console.log(error);

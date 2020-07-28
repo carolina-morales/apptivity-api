@@ -48,7 +48,7 @@ router.post(
 
 // put
 router.put(
-	'/update/:id',
+	'/:id',
 	[
 		check('name').not().isEmpty().trim().escape().withMessage('El nombre es obligatorio'),
 		check('lastname').not().isEmpty().trim().escape().withMessage('Los apellidos son obligatorios')
@@ -59,6 +59,6 @@ router.put(
 router.put('/block/:id', blockUser);
 
 // delete
-router.put('/delete/:id', deleteUser);
+router.put('/:id', deleteUser);
 
 module.exports = router;
