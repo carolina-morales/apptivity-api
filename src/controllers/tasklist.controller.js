@@ -79,16 +79,19 @@ taskListCtrl.getTaskLists = async (req, res) => {
 
 taskListCtrl.updateTaskList = async (req, res) => {
 	const errors = validationResult(req);
-	if (!errors) return res.status(400).json({ errors: errors.array() });
+	if (!errors) return res.status(200).json({ ok: false, errors: errors.array() });
 
-	const { taskListId } = req.params;
-	const { userId, name } = req.body;
+	const { id_tasklist } = req.params;
+	const { id_user, name } = req.body;
 	try {
-		taskList = await TaskList.findOne({ name, author: ObjectId(userId) });
-		if (taskList) return res.status(400).json({ msg: 'Ya hay una tarea con este nombre' });
+		let taskList = await TaskList.findOne({ name, author: ObjectId(id_user) });
+		if (taskList)
+			return res
+				.status(200)
+				.json({ ok: false, errors: [ { msg: 'Ya hay una lista de tareas con este nombre' } ] });
 
-		taskList = await TaskList.findByIdAndUpdate(taskListId, { name }, { new: true });
-		return res.status(200).json({ msg: 'Datos actualizados' });
+		taskList = await TaskList.findByIdAndUpdate(id_tasklist, { name }, { new: true });
+		return res.status(200).json({ ok: true, msg: 'Datos actualizados' });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error });
@@ -96,11 +99,11 @@ taskListCtrl.updateTaskList = async (req, res) => {
 };
 
 taskListCtrl.deleteTaskList = async (req, res) => {
-	const { taskListId } = req.params;
+	const { id_tasklist } = req.params;
 	try {
-		const taskList = await TaskList.findByIdAndRemove(taskListId, { new: true });
-		const user = await User.update({ taskLists: taskListId }, { $pull: { taskLists: taskListId } });
-		res.status(200).json({ msg: 'Listaod de tareas borrado' });
+		const taskList = await TaskList.findByIdAndRemove(id_tasklist, { new: true });
+		const board = await Board.update({ taskLists: id_tasklist }, { $pull: { taskLists: id_tasklist } });
+		res.status(200).json({ ok: true, msg: 'Listado de tareas borrado' });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error });

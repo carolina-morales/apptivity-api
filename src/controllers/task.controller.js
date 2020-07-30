@@ -26,4 +26,19 @@ taskCtrl.createTask = async (req, res) => {
 	}
 };
 
+taskCtrl.updateTask = async (req, res) => {
+	const errors = validationResult(req);
+	if (!errors) return res.status(200).json({ ok: false, errors: errors.array() });
+
+	const { id_task } = req.params;
+	const { name } = req.body;
+	try {
+		const task = await Task.findByIdAndUpdate(id_task, { name }, { new: true });
+		res.status(200).json({ ok: true, msg: 'Tarea actualizada', task });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ error });
+	}
+};
+
 module.exports = taskCtrl;

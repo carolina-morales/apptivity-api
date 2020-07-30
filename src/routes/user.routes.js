@@ -7,7 +7,9 @@ const {
 	login,
 	getUsers,
 	getUser,
+	createUser,
 	updateUser,
+	updatePassword,
 	deleteUser,
 	blockUser
 } = require('../controllers/user.controller.js');
@@ -18,6 +20,16 @@ router.get('/', isAuthenticated, getUsers);
 router.get('/:id', isAuthenticated, getUser);
 
 // post
+router.post(
+	'/',
+	[
+		check('name').not().isEmpty().trim().escape().withMessage('El nombre es obligatorio'),
+		check('lastname').not().isEmpty().trim().escape().withMessage('Los apellidos son obligatorios'),
+		check('email').isEmail().trim().escape().withMessage('Correo no valido')
+	],
+	createUser
+);
+
 router.post(
 	'/signup',
 	[
@@ -56,9 +68,26 @@ router.put(
 	updateUser
 );
 
+router.put(
+	'/:id/password',
+	[
+		check('old_password').not().isEmpty().trim().escape().withMessage('Especifique la contraseña anterior'),
+		check('new_password').not().isEmpty().trim().escape().withMessage('Especifique la contraseña nueva'),
+		check('confirm_password').not().isEmpty().trim().escape().withMessage('Confirme la contraseña nueva'),
+		check('old_password')
+			.isLength({ min: 8 })
+			.withMessage('La contraseña anterior debe ser minimo de 8 caracteres'),
+		check('new_password').isLength({ min: 8 }).withMessage('La contraseña nueva debe ser minimo de 8 caracteres'),
+		check('confirm_password')
+			.isLength({ min: 8 })
+			.withMessage('La contraseña confirmada debe ser minimo de 8 caracteres')
+	],
+	updatePassword
+);
+
 router.put('/block/:id', blockUser);
 
 // delete
-router.put('/:id', deleteUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;

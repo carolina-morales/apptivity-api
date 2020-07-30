@@ -26,14 +26,14 @@ router.post(
 );
 
 router.put(
-	'/:taskListId',
+	'/:id_tasklist',
 	[
-		check('userId').not().isEmpty().withMessage('Debe especificar el usuario'),
+		check('id_user').not().isEmpty().withMessage('Debe especificar el usuario'),
 		check('name').not().isEmpty().trim().escape().withMessage('El nombre es obligatorio')
 	],
 	updateTaskList
 );
 
-router.delete('/:taskListId', deleteTaskList);
+router.delete('/:id_tasklist', deleteTaskList);
 
 module.exports = router;
